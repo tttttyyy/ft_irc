@@ -60,5 +60,3 @@ class Command
 
 
 #endif // COMMANDS_HPP
-
-

@@ -21,9 +21,10 @@ Command::Command()
 		instance = this;
 
 		validate[CommandType::pass] = [](Client &sender, const std::vector<std::string> &arguments)
-		{
+		{	
+			IRCException ex;
 			if(sender.getIsPassed())
-				throw AlreadyRegistered(sender.getNick());
+				throw (sender.getNick());
 			if(arguments.size() == 0)
 				throw NeedMoreParams(sender.getNick(),"PASS");
 			if (Server::getServer()->getPass() != arguments[0])

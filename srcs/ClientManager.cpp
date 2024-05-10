@@ -115,8 +115,7 @@ void	ClientManager::HandleMessage(Client &client)
 		}
 		catch(const IRCException& exception)
 		{
-			Server::getServer()->SendMessageToClient(client,
-				exception.what());
+			Server::getServer()->SendMessageToClient(client, exception.what());
 		}
 	}
 	messageController->ClearChunk(client.getSocket());

@@ -1,12 +1,4 @@
-#ifndef EXCEPTIONS_HPP
-# define EXCEPTIONS_HPP
-
-# include <exception>
-# include <iostream>
-# include "Server.hpp"
-# include <sstream>
-
-class Server;
+#include "Exceptions.hpp"
 
 template <typename T>
 std::string NumberToString(T Number)
@@ -31,8 +23,12 @@ public:
 		: errorCode(_errorCode), name(_name), errorMessage(_message) {}
 
 public:
-	virtual const char *what() const throw();
-	virtual ~IRCException() throw();
+	virtual const char *what() const throw(){
+		//: name@host ERR_CODE name:reason
+		fullMessage = ":" + name + "@" + (Server::getServer())->getHost() + " " + NumberToString(errorCode) + errorMessage;
+		return fullMessage.c_str();
+	}
+	virtual ~IRCException() throw() {}
 };
 
 #endif // EXCEPTIONS_HPP
