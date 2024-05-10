@@ -30,23 +30,24 @@ CommandHandler::~CommandHandler()
 
 void	CommandHandler::InitilizeCommands()
 {
-	commands[CommandType::Type pass] = Command::getCommand();
-	commands[CommandType::Type nick] = Command::getCommand();
-	commands[CommandType::Type user] = Command::getCommand();
-	commands[CommandType::Type ping] = Command::getCommand();
-	commands[CommandType::Type pong] = Command::getCommand();
-	commands[CommandType::Type privmsg] = Command::getCommand();
-	commands[CommandType::Type notice] = Command::getCommand();
-	commands[CommandType::Type join] = Command::getCommand();
-	commands[CommandType::Type part] = Command::getCommand();
-	commands[CommandType::Type kick] = Command::getCommand();
-	commands[CommandType::Type quit] = Command::getCommand();
-	commands[CommandType::Type mode] = Command::getCommand();
-	commands[CommandType::Type who] = Command::getCommand();
-	commands[CommandType::Type cap] = Command::getCommand();
-	commands[CommandType::Type bot] = Command::getCommand();
-	commands[CommandType::Type botme] = Command::getCommand();
-	commands[CommandType::Type ftp] = Command::getCommand();
+	
+	commands[CommandType::pass] = Command::getCommand();
+	commands[CommandType::nick] = Command::getCommand();
+	commands[CommandType::user] = Command::getCommand();
+	commands[CommandType::ping] = Command::getCommand();
+	commands[CommandType::pong] = Command::getCommand();
+	commands[CommandType::privmsg] = Command::getCommand();
+	commands[CommandType::notice] = Command::getCommand();
+	commands[CommandType::join] = Command::getCommand();
+	commands[CommandType::part] = Command::getCommand();
+	commands[CommandType::kick] = Command::getCommand();
+	commands[CommandType::quit] = Command::getCommand();
+	commands[CommandType::mode] = Command::getCommand();
+	commands[CommandType::who] = Command::getCommand();
+	commands[CommandType::cap] = Command::getCommand();
+	commands[CommandType::bot] = Command::getCommand();
+	commands[CommandType::botme] = Command::getCommand();
+	commands[CommandType::ftp] = Command::getCommand();
 }
 
 void	CommandHandler::ClearCommands()
@@ -64,6 +65,6 @@ void	CommandHandler::ExecuteCommand(Client &sender, const CommandData &data)
 	}
 	else
 	{
-		throw UnknownCommand(sender.getNick(), data.command);
+		throw IRCException(sender.getNick(), " " + data.command + " :Unknown command", 421);//UnknownCommand(sender.getNick(), data.command);
 	}
 }

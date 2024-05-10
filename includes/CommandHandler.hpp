@@ -11,8 +11,8 @@ class CommandHandler
 	private: //for singleton
 		static CommandHandler *instance;
 	private:
-		std::map<std::string, Command *> commands;
-
+		std::map<CommandType::Type, Command *> commands;
+		std::map<CommandType::Type, Command *>::iterator it;
 		void	InitilizeCommands();
 		void	ClearCommands();
 

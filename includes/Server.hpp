@@ -1,6 +1,10 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
-
+# include <netinet/in.h>
+# include <sys/socket.h>
+# include <sys/types.h>
+# include <arpa/inet.h> //close
+# include <fcntl.h>
 # include "irc_defs.hpp"
 # include "ClientManager.hpp"
 # include "Channel.hpp"

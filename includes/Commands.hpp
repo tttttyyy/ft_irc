@@ -48,7 +48,7 @@ class Command
 	static	Command *instance;
 	static	Command *getCommand();
 	    // Define function pointer type for execute and validate functions
-    using CommandFunction = void(*)(Client &sender, const std::vector<std::string> &arguments);
+    typedef void(*CommandFunction)(Client &sender, const std::vector<std::string> &arguments);
 
     // Array of function pointers for execute and validate
     CommandFunction execute[sizeof(CommandType::Type)];
