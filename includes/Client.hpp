@@ -1,9 +1,9 @@
-#if !defined(CLIENT_HPP)
-#define CLIENT_HPP
+#ifndef CLIENT_HPP
+# define CLIENT_HPP
 
-#include <iostream>
-#include <vector>
-#include "IMessenger.hpp"
+# include <iostream>
+# include <vector>
+# include "IMessenger.hpp"
 
 class Client : public IMessenger
 {

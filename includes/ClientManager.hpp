@@ -1,10 +1,10 @@
-#if !defined(CLIENT_MANAGER_HPP)
-#define CLIENT_MANAGER_HPP
+#ifndef CLIENT_MANAGER_HPP
+# define CLIENT_MANAGER_HPP
 
 
-#include "Client.hpp"
-#include "CommandHandler.hpp"
-#include "irc.hpp"
+# include "Client.hpp"
+# include "CommandHandler.hpp"
+# include "irc.hpp"
 
 class MessageController;
 

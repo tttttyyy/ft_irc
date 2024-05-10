@@ -1,8 +1,8 @@
-#if !defined(COMMAND_DATA_HPP)
-#define COMMAND_DATA_HPP
+#ifndef COMMAND_DATA_HPP
+# define COMMAND_DATA_HPP
 
-#include <iostream>
-#include <vector>
+# include <iostream>
+# include <vector>
 
 struct CommandData
 {

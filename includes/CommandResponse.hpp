@@ -1,8 +1,8 @@
-#if !defined(COMMAND_RESPONSE_HPP)
-#define COMMAND_RESPONSE_HPP
+#ifndef COMMAND_RESPONSE_HPP
+# define COMMAND_RESPONSE_HPP
 
 
-#include "Client.hpp"
+# include "Client.hpp"
 
 class CommandResponse : public IMessenger
 {

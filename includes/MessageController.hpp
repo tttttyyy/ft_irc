@@ -1,12 +1,12 @@
-#if !defined(MESSAGE_CONTROLLER_HPP)
-#define MESSAGE_CONTROLLER_HPP
+#ifndef MESSAGE_CONTROLLER_HPP
+# define MESSAGE_CONTROLLER_HPP
 
-#include "CommandData.hpp"
-#include "Client.hpp"
-#include <cstring>
-#include <sstream>
-#include <map>
-#include <vector>
+# include "CommandData.hpp"
+# include "Client.hpp"
+# include <cstring>
+# include <sstream>
+# include <map>
+# include <vector>
 
 class MessageController
 {

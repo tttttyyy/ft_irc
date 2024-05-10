@@ -1,8 +1,8 @@
-#if !defined(COMMAND_HANDLER_HPP)
-#define COMMAND_HANDLER_HPP
+#ifndef COMMAND_HANDLER_HPP
+# define COMMAND_HANDLER_HPP
 
-#include "ICommand.hpp"
-#include "CommandData.hpp"
+# include "Commands.hpp"
+# include "CommandData.hpp"
 
 // class ICommand;
 
@@ -11,8 +11,7 @@ class CommandHandler
 	private: //for singleton
 		static CommandHandler *instance;
 	private:
-		std::map<std::string, ICommand *> commands;
-		std::map<std::string, ICommand *>::iterator it;
+		std::map<std::string, Command *> commands;
 
 		void	InitilizeCommands();
 		void	ClearCommands();

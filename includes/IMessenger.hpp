@@ -1,7 +1,7 @@
-#if !defined(IMESSENGER_HPP)
-#define IMESSENGER_HPP
+#ifndef IMESSENGER_HPP
+# define IMESSENGER_HPP
 
-#include <iostream>
+# include <iostream>
 
 class IMessenger
 {

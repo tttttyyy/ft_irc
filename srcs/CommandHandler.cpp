@@ -30,29 +30,28 @@ CommandHandler::~CommandHandler()
 
 void	CommandHandler::InitilizeCommands()
 {
-	commands["PASS"] = new Command<CommandType::pass>();
-	commands["NICK"] = new Command<CommandType::nick>();
-	commands["USER"] = new Command<CommandType::user>();
-	commands["PING"] = new Command<CommandType::ping>();
-	commands["PONG"] = new Command<CommandType::pong>();
-	commands["PRIVMSG"] = new Command<CommandType::privmsg>();
-	commands["NOTICE"] = new Command<CommandType::notice>();
-	commands["JOIN"] = new Command<CommandType::join>();
-	commands["PART"] = new Command<CommandType::part>();
-	commands["KICK"] = new Command<CommandType::kick>();
-	commands["QUIT"] = new Command<CommandType::quit>();
-	commands["MODE"] = new Command<CommandType::mode>();
-	commands["WHO"] = new Command<CommandType::who>();
-	commands["CAP"] = new Command<CommandType::cap>();
-	commands["bot"] = new Command<CommandType::bot>();
-	commands["botme"] = new Command<CommandType::botme>();
-	commands["ftp"] = new Command<CommandType::ftp>();
+	commands[CommandType::Type pass] = Command::getCommand();
+	commands[CommandType::Type nick] = Command::getCommand();
+	commands[CommandType::Type user] = Command::getCommand();
+	commands[CommandType::Type ping] = Command::getCommand();
+	commands[CommandType::Type pong] = Command::getCommand();
+	commands[CommandType::Type privmsg] = Command::getCommand();
+	commands[CommandType::Type notice] = Command::getCommand();
+	commands[CommandType::Type join] = Command::getCommand();
+	commands[CommandType::Type part] = Command::getCommand();
+	commands[CommandType::Type kick] = Command::getCommand();
+	commands[CommandType::Type quit] = Command::getCommand();
+	commands[CommandType::Type mode] = Command::getCommand();
+	commands[CommandType::Type who] = Command::getCommand();
+	commands[CommandType::Type cap] = Command::getCommand();
+	commands[CommandType::Type bot] = Command::getCommand();
+	commands[CommandType::Type botme] = Command::getCommand();
+	commands[CommandType::Type ftp] = Command::getCommand();
 }
 
 void	CommandHandler::ClearCommands()
 {
-	for (it = commands.begin(); it != commands.end(); it++)
-		delete it->second;
+		delete instance;
 }
 
 void	CommandHandler::ExecuteCommand(Client &sender, const CommandData &data)
@@ -60,11 +59,11 @@ void	CommandHandler::ExecuteCommand(Client &sender, const CommandData &data)
 	it = commands.find(data.command);
 	if (it != commands.end())
 	{
-		it->second->validate(sender, data.args);
-		it->second->execute(sender, data.args);
+		it->second->validate[it->first](sender, data.args);
+		it->second->execute[it->first](sender, data.args);
 	}
 	else
 	{
-		throw IRCException(sender.getNick(), " " + data.command + " :Unknown command", 421);//UnknownCommand(sender.getNick(), data.command);
+		throw UnknownCommand(sender.getNick(), data.command);
 	}
 }

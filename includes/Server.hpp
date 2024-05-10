@@ -1,10 +1,10 @@
-#if !defined(SERVER_HPP)
-#define SERVER_HPP
+#ifndef SERVER_HPP
+# define SERVER_HPP
 
-#include "irc_defs.hpp"
-#include "ClientManager.hpp"
-#include "Channel.hpp"
-#include "CommandResponse.hpp"
+# include "irc_defs.hpp"
+# include "ClientManager.hpp"
+# include "Channel.hpp"
+# include "CommandResponse.hpp"
 
 class Server : public CommandResponse
 {

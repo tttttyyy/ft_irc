@@ -1,10 +1,10 @@
-#if !defined(CHANNEL_HPP)
-#define CHANNEL_HPP
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
-#include "Client.hpp"
-#include <vector>
-#include <map>
-#include "CommandResponse.hpp"
+# include "Client.hpp"
+# include <vector>
+# include <map>
+# include "CommandResponse.hpp"
 
 
 struct ModeType

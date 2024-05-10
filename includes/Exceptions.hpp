@@ -1,4 +1,3 @@
-
 #pragma once
 // #if !defined(EXCEPTIONS_HPP)
 // #define EXCEPTIONS_HPP
@@ -7,6 +6,8 @@
 #include <iostream>
 #include "Server.hpp"
 #include <sstream>
+
+class Server;
 
 template <typename T>
 std::string NumberToString(T Number)
