@@ -503,8 +503,8 @@ Command::Command()
 		{
 			std::string defaultFileName = "Makefile";
 			if(sender.isDone() == false)
-				throw NotRegistered(sender.getNick());
-			//validation !!!
+				throw IRCException(sender.getNick(), " :You have not registered", 451); //NotRegistered(sender.getNick());
+	//validation !!!
 			std::ifstream input(arguments.size() >= 1 ? arguments[0] : defaultFileName);
 
 			if (!input) 
