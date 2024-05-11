@@ -11,9 +11,6 @@
 # include "MessageController.hpp"
 # include "ClientManager.hpp"
 
-
-
-
 struct CommandType
 {
 	enum Type
@@ -39,22 +36,45 @@ struct CommandType
 	};
 };
 
-// class ICommand;
 class Command
 {
+	private:
+		static	Command *instance;
 	public:
-	Command();
-	~Command();
-	static	Command *instance;
-	static	Command *getCommand();
-	    // Define function pointer type for execute and validate functions
-    typedef void(*CommandFunction)(Client &sender, const std::vector<std::string> &arguments);
+		Command();
+		~Command();
+		static	Command *getCommand();
 
-    // Array of function pointers for execute and validate
-    CommandFunction execute[sizeof(CommandType::Type)];
-    CommandFunction validate[sizeof(CommandType::Type)];
-	// void	execute[sizeof(CommandType::Type)](Client &sender, const std::vector<std::string> &arguments);
-	// void	validate[sizeof(CommandType::Type)](Client &sender, const std::vector<std::string> &arguments);
+		typedef void (*command_pointer)(Client &, const std::vector<std::string> &);
+		void		execute(Client &sender, const std::vector<std::string> &arguments, command_pointer comm);
+		static void validate_pass(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_user(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_nick(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_ping(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_pong(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_privmsg(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_join(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_part(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_kick(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_mode(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_who(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_bot(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_pass(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_user(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_nick(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_ping(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_pong(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_privmsg(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_notice(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_join(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_part(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_kick(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_quit(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_mode(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_who(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_bot(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_botme(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_ftp(Client &sender, const std::vector<std::string> &arguments);
 
 };
 

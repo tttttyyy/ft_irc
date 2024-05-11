@@ -27,8 +27,7 @@ private:
 	mutable std::string fullMessage;
 
 public:
-	IRCException(const std::string &_name, const std::string &_message, int _errorCode)
-		: errorCode(_errorCode), name(_name), errorMessage(_message) {}
+	IRCException(const std::string &_name, const std::string &_message, int _errorCode);
 
 public:
 	virtual const char *what() const throw();

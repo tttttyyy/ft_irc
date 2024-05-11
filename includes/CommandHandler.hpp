@@ -3,16 +3,18 @@
 
 # include "Commands.hpp"
 # include "CommandData.hpp"
-
-// class ICommand;
+# include <map>
+class Command;
 
 class CommandHandler
 {
 	private: //for singleton
 		static CommandHandler *instance;
 	private:
-		std::map<CommandType::Type, Command *> commands;
-		std::map<CommandType::Type, Command *>::iterator it;
+		typedef void (*CommandFunction)(Client&, const std::vector<std::string>&);
+
+    	std::map<std::string, CommandFunction> commands;
+		std::map<std::string, CommandFunction>::iterator it;
 		void	InitilizeCommands();
 		void	ClearCommands();
 

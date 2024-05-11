@@ -30,24 +30,22 @@ CommandHandler::~CommandHandler()
 
 void	CommandHandler::InitilizeCommands()
 {
-	
-	commands[CommandType::pass] = Command::getCommand();
-	commands[CommandType::nick] = Command::getCommand();
-	commands[CommandType::user] = Command::getCommand();
-	commands[CommandType::ping] = Command::getCommand();
-	commands[CommandType::pong] = Command::getCommand();
-	commands[CommandType::privmsg] = Command::getCommand();
-	commands[CommandType::notice] = Command::getCommand();
-	commands[CommandType::join] = Command::getCommand();
-	commands[CommandType::part] = Command::getCommand();
-	commands[CommandType::kick] = Command::getCommand();
-	commands[CommandType::quit] = Command::getCommand();
-	commands[CommandType::mode] = Command::getCommand();
-	commands[CommandType::who] = Command::getCommand();
-	commands[CommandType::cap] = Command::getCommand();
-	commands[CommandType::bot] = Command::getCommand();
-	commands[CommandType::botme] = Command::getCommand();
-	commands[CommandType::ftp] = Command::getCommand();
+	commands["PASS"] = &Command::execute_pass;
+	commands["NICK"] = &Command::execute_nick;
+	commands["USER"] = &Command::execute_user;
+	commands["PING"] = &Command::execute_ping;
+	commands["PONG"] = &Command::execute_pong;
+	commands["PRIVMSG"] = &Command::execute_privmsg;
+	commands["NOTICE"] = &Command::execute_notice;
+	commands["JOIN"] = &Command::execute_join;
+	commands["PART"] = &Command::execute_part;
+	commands["KICK"] = &Command::execute_kick;
+	commands["QUIT"] = &Command::execute_quit;
+	commands["MODE"] = &Command::execute_mode;
+	commands["WHO"] = &Command::execute_who;
+	commands["BOT"] = &Command::execute_bot;
+	commands["BOTME"] = &Command::execute_botme;
+	commands["FTP"] = &Command::execute_ftp;
 }
 
 void	CommandHandler::ClearCommands()
@@ -60,8 +58,8 @@ void	CommandHandler::ExecuteCommand(Client &sender, const CommandData &data)
 	it = commands.find(data.command);
 	if (it != commands.end())
 	{
-		it->second->validate[it->first](sender, data.args);
-		it->second->execute[it->first](sender, data.args);
+		commands[data.command](sender, data.args);
+		// Command::getCommand()->execute(sender, data.args, it->second);
 	}
 	else
 	{
