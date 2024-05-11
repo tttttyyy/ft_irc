@@ -1,7 +1,7 @@
 NAME			= ircserv
 CPP				= c++
 RMIF			= rm -f
-CPPFLAGS		= -Wall -Werror -Wextra -I./includes #-std=c++98 
+CPPFLAGS		= -Wall -Werror -Wextra -I./includes -std=c++98 
 
 SRCS_DIR		= ./srcs
 
