@@ -1,16 +1,11 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
-# include <netinet/in.h>
-# include <sys/socket.h>
-# include <sys/types.h>
-# include <arpa/inet.h> //close
-# include <fcntl.h>
-# include "irc_defs.hpp"
-# include "ClientManager.hpp"
-# include "Channel.hpp"
-# include "CommandResponse.hpp"
 
-class Server : public CommandResponse
+# include "irc.hpp"
+
+class Client;
+class Channel;
+class Server //: public CommandResponse
 {
 	private: // for singleton
 		static Server *instance;

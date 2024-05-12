@@ -1,20 +1,14 @@
 #ifndef COMMAND_HANDLER_HPP
 # define COMMAND_HANDLER_HPP
 
-# include <map>
-# include <vector>
-# include "Client.hpp"
-# include <iostream>
-# include <string>
-# include "Exceptions.hpp"
-# include "Server.hpp"
-# include "MessageController.hpp"
-# include "ClientManager.hpp"
-# include "CommandData.hpp"
-# include "CommandResponse.hpp"
-
 # include "irc.hpp"
-# include <fstream>
+
+class Client;
+struct CommandData
+{
+	std::string command;
+	std::vector<std::string> args;
+};
 
 struct CommandType
 {

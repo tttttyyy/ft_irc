@@ -1,4 +1,4 @@
-#include "Server.hpp"
+#include "irc.hpp"
 
 void	ValidateInput(int argc, char **argv)
 {

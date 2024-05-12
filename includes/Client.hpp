@@ -1,11 +1,10 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
-# include <iostream>
-# include <vector>
-# include "IMessenger.hpp"
+# include "irc.hpp"
 
-class Client : public IMessenger
+class IMessenger;
+class Client //: public IMessenger
 {
 	private:
 		bool isPassed;

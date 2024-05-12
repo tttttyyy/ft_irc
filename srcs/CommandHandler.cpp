@@ -1,5 +1,5 @@
 #include "CommandHandler.hpp"
-#include "Exceptions.hpp"
+
 
 CommandHandler	*CommandHandler::instance = NULL;
 
@@ -444,7 +444,8 @@ void CommandHandler::execute_part(Client &sender, const std::vector<std::string>
 		channelName = message->GetChannelName(args[i]);
 
 		Channel &channel = server->getChannel(channelName);
-		Server::getServer()->PartMessage(sender,channelName);
+		// Server::getServer()->PartMessage(sender,channelName);
+		PartMessage(sender,channelName);
 		channel.LeaveMember(sender.getSocket());
 		if(channel.getMemberCount() == 0)
 			server->removeChannel(channelName);
@@ -458,7 +459,8 @@ void CommandHandler::execute_kick(Client &sender, const std::vector<std::string>
 	ClientManager *clientManager = ClientManager::getManager();
 	std::string channelName = MessageController::getController()->GetChannelName(arguments[0]);
 	Channel &channel = server->getChannel(channelName);
-	server->KickMessage(clientManager->getClient(arguments[1]),channelName,sender.getNick());
+	// server->KickMessage(clientManager->getClient(arguments[1]),channelName,sender.getNick());
+	KickMessage(clientManager->getClient(arguments[1]),channelName,sender.getNick());
 	int	memberSocket = clientManager->GetClientSocket(arguments[1]);
 	channel.KickMember(sender.getSocket(), memberSocket);
 }
@@ -483,7 +485,8 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 		Channel &channel = server->getChannel(channelName);
 		if (arguments.size() == 1)
 		{
-			server->ChannelModeMessage(sender, channelName);
+			//server->ChannelModeMessage(sender, channelName);
+			ChannelModeMessage(sender, channelName);
 			return ;
 		}
 		std::string modeString = arguments[1];
@@ -531,8 +534,10 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 			}
 		}
 	}
-	else
-		server->UserModeMessage(sender);
+	else{
+		// server->UserModeMessage(sender);
+		UserModeMessage(sender);
+	}
 }
 void CommandHandler::execute_who(Client &sender, const std::vector<std::string> &arguments)
 {
@@ -572,7 +577,7 @@ void CommandHandler::execute_ftp(Client &sender, const std::vector<std::string> 
 
 	if (!input) 
 	{
-		Server::getServer()->SendMessageToClient(sender, "Cannot Open the given File");
+		SendMessageToClient(sender, "Cannot Open the given File");
 		return ;
 	}
 
@@ -582,7 +587,7 @@ void CommandHandler::execute_ftp(Client &sender, const std::vector<std::string> 
 	{
 		mem +=line;
 	}
-	Server::getServer()->SendMessageToClient(sender, mem);
+	SendMessageToClient(sender, mem);
 }
 
 void	CommandHandler::InitilizeCommands()

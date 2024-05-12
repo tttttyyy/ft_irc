@@ -1,7 +1,4 @@
 #include "MessageController.hpp"
-#include <sys/socket.h>
-#include <stdio.h>
-#include "Server.hpp"
 
 MessageController	*MessageController::instance = NULL;
 

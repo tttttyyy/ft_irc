@@ -1,10 +1,7 @@
 #ifndef EXCEPTIONS_HPP
 # define EXCEPTIONS_HPP
 
-# include <exception>
-# include <iostream>
-# include "Server.hpp"
-# include <sstream>
+# include "irc.hpp"
 
 class Server;
 

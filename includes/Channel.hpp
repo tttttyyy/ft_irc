@@ -1,12 +1,10 @@
 #ifndef CHANNEL_HPP
 # define CHANNEL_HPP
 
-# include "Client.hpp"
-# include <vector>
-# include <map>
-# include "CommandResponse.hpp"
+# include "irc.hpp"
 
-
+class Client;
+class CommandResponse;
 struct ModeType
 {
 	enum Mode
@@ -19,9 +17,8 @@ struct ModeType
 	};
 };
 
-class CommandResponse;
 
-class Channel : public  CommandResponse
+class Channel 
 {
 	public:
 		
@@ -67,20 +64,17 @@ class Channel : public  CommandResponse
 		std::string	password;
 		std::map<int, Client> members;
 		int		mode;
-		void	ValidateAdmin(int admin) const;
-		void	ValidateAdminIsInChannel(int admin) const;
-
-		void	ValidateClientIsInServer(int client) const;
-		void	ValidateClientIsInChannel(int admin, int client) const;
-
-		void	ValidateCanModifyAdmin(int admin, int newAdmin) const;
-
+		mutable std::vector<int> admins;
 
 	private:
+		void	ValidateAdmin(int admin) const;
+		void	ValidateAdminIsInChannel(int admin) const;
+		void	ValidateClientIsInServer(int client) const;
+		void	ValidateClientIsInChannel(int admin, int client) const;
+		void	ValidateCanModifyAdmin(int admin, int newAdmin) const;
 		void	SetAdmin(int newAdmin);
 		void	DeleteAdmin(int removingAdmin);
 
-		mutable std::vector<int> admins;
 };
 
 

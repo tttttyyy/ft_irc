@@ -1,7 +1,5 @@
 #include "ClientManager.hpp"
-#include "Server.hpp"
-#include "Exceptions.hpp"
-#include "MessageController.hpp"
+
 
 ClientManager	*ClientManager::instance = NULL;
 
@@ -113,9 +111,8 @@ void	ClientManager::HandleMessage(Client &client)
 		{
 			CommandHandler::getHandler()->ExecuteCommand(client, *data);
 		}
-		catch(const IRCException& exception)
-		{
-			Server::getServer()->SendMessageToClient(client, exception.what());
+		catch(const IRCException& exception){
+			SendMessageToClient(client, exception.what());
 		}
 	}
 	messageController->ClearChunk(client.getSocket());

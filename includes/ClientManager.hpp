@@ -2,8 +2,6 @@
 # define CLIENT_MANAGER_HPP
 
 
-# include "Client.hpp"
-# include "CommandHandler.hpp"
 # include "irc.hpp"
 
 class MessageController;

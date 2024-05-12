@@ -1,10 +1,4 @@
 #include "Channel.hpp"
-#include "Exceptions.hpp"
-#include "ClientManager.hpp"
-#include <algorithm>
-#include "MessageController.hpp"
-#include "Server.hpp"
-#include "Exceptions.hpp"
 
 Channel::Channel() {}
 
@@ -20,10 +14,6 @@ void Channel::AddMember(int clientSocket)
 
 void Channel::KickMember(int admin, int memberSocket)
 {
-	//":" + admin_->getPrefix() + " KICK " + name_ + " " + client->getNick() + " :" + reason
-	/* const Client &admin_class = ClientManager::getManager()->getClient(admin);
-	std::string message = ":" + admin_class.GetFormattedText() + " KICK " + name + " " + memberNick + " : BYE!!!";
-	std::map<std::string */
 	ValidateCanModifyAdmin(admin, memberSocket);
 	LeaveMember(memberSocket);
 }
@@ -46,8 +36,7 @@ void	Channel::LeaveIfMember(int memberSocket)
 	}
 }
 
-void Channel::MakeAdmin(int admin, int newAdmin)
-{
+void Channel::MakeAdmin(int admin, int newAdmin){
 	ValidateCanModifyAdmin(admin, newAdmin);
 	SetAdmin(newAdmin);
 }
@@ -140,18 +129,17 @@ void Channel::Broadcast(const Client &sender,
 
 void	Channel::SendChannelReply(const std::string &message) const
 {
-	Server *server = Server::getServer();
+
 	for (std::map<int, Client>::const_iterator it = members.begin();
 		it != members.end(); it++)
 	{
-		server->SendMessageToClient(it->second, message);
+		SendMessageToClient(it->second, message);
 		std::cout << message <<std::endl;
 	}
 }
 
 void	Channel::SendJoinReply(const Client &client) const
 {
-	Server *server = Server::getServer();
 	std::string message_body;
 	for (std::map<int, Client>::const_iterator it = members.begin(); it != members.end();it++)
 	{
@@ -159,12 +147,12 @@ void	Channel::SendJoinReply(const Client &client) const
 		if(IsAdmin(it->first))
 			sign = " :@";
 		message_body = "353 " + client.getNick() + " = " + "#" + name + sign + it->second.getNick() ;
-		server->SendMessageToClient(client, message_body);
+		SendMessageToClient(client, message_body);
 		std::cout << message_body <<std::endl;
 	}
-	//366 a2 #a :End of /NAMES list
+	//--------------366 a2 #a :End of /NAMES list-------------
 	message_body = "366 " +  client.getNick() + " " + "#"+ name + " :End of /NAMES list";
-	server->SendMessageToClient(client, message_body);
+	SendMessageToClient(client, message_body);
 	std::cout << message_body <<std::endl;
 }
 
@@ -180,7 +168,7 @@ void	Channel::SendWhoReply(const Client &client) const
 		std::string message_body = "352 " + client.getNick() + " "+ "#"+name 
 			+ " " + it->second.getName() + " " + host + " IRC Server "
 				 + it->second.getNick() + " " + sign + " :0 " + it->second.getName();
-		server->SendMessageToClient(client, message_body);
+		SendMessageToClient(client, message_body);
 	}
 }
 
@@ -262,10 +250,6 @@ std::string	Channel::ModeInfo() const
 
 void Channel::ChannelWhoResponse(Client const &client)
 {
-
-	/*"352 " + client->getNick() + " " + name_ + " " + (*it)->getUser() + " " + 
-	(*it)->getHost() + " ft_irc " + (*it)->getNick() 
-	+ " " + "H" + " :1 " + (*it)->getReal()*/
 	std::string message;
 	std::map<int, Client>::iterator it = members.begin();
 	for (; it != members.end(); ++it)

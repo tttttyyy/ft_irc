@@ -1,7 +1,5 @@
 #include "Client.hpp"
-#include <sys/socket.h>
-#include "MessageController.hpp"
-#include "Server.hpp"
+
 
 Client::Client()
     : name("default name")
@@ -58,8 +56,9 @@ void Client::setName(std::string const &name)
 }
 void Client::setNick(std::string const &nick)
 {
-	if((this->nick == "") == false)
-        	this->SendMessageWithSocket(this->fd,":" + this->nick + " NICK " + nick);
+	if((this->nick == "") == false){
+     	SendMessageWithSocket(this->fd,":" + this->nick + " NICK " + nick);
+	}
 	this->nick = nick;
 }
 
@@ -87,7 +86,6 @@ std::string	Client::GetFormattedText() const
 void	Client::SendMessage(const Client &reciever,
 	const std::string &commmand, const std::string message) const
 {
-	//:senderNickname!name@host COMMAND recieverNickname:message
 	std::string finalizedMessage = GetFormattedText() + " "
 		+ commmand + " " + reciever.getNick() + " : " + message;
 	SendMessageWithSocket(reciever.getSocket(), finalizedMessage);
@@ -108,7 +106,6 @@ void	Client::SendPongMessage(const std::string &message) const
 void	Client::SendMessageFromChannel(const Client &reciever, const std::string &command,
 	const std::string &channel, const std::string message) const
 {
-	//:senderNickname!name@host COMMAND recieverNickname:message
 	std::string finalizedMessage = GetFormattedText() + " "
 		+ command + " #" + channel  + " :" + message;
 	SendMessageWithSocket(reciever.getSocket(), finalizedMessage);

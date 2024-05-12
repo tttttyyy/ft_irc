@@ -1,12 +1,9 @@
 #ifndef MESSAGE_CONTROLLER_HPP
 # define MESSAGE_CONTROLLER_HPP
 
-# include "CommandData.hpp"
-# include "Client.hpp"
-# include <cstring>
-# include <sstream>
-# include <map>
-# include <vector>
+# include "irc.hpp"
+
+struct CommandData;
 
 class MessageController
 {
