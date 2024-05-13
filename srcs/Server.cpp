@@ -79,7 +79,6 @@ void	Server::BindSocket()
 void	Server::StartListening()
 {
 	std::cout << "Listener on port " << port << std::endl;
-	// specifying maximum of 3 pending connections for the master socket
 	if (listen(master_socket, 100) < 0)
 	{
 		perror("listen");
@@ -132,7 +131,6 @@ void	Server::HandleIncomingConnections()
 	if (FD_ISSET(master_socket, &readfds))
 	{
 		new_socket = AcceptNewSocket();
-		//inform user of socket number - used in send and receive commands
 		std::cout << "New connection , socket fd is " << new_socket
 			<< ", ip is : " << getHost() << ", port : "
 			<< ntohs(address.sin_port) << std::endl;

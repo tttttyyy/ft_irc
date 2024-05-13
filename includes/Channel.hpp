@@ -80,4 +80,4 @@ class Channel
 
 
 
-#endif // CHANNEL_HPP
+#endif

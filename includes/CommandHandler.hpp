@@ -4,6 +4,7 @@
 # include "irc.hpp"
 
 class Client;
+
 struct CommandData
 {
 	std::string command;
@@ -37,11 +38,9 @@ struct CommandType
 
 class CommandHandler
 {
-	private: //for singleton
-		static CommandHandler *instance;
 	private:
+		static CommandHandler *instance;
 		typedef void (*CommandFunction)(Client&, const std::vector<std::string>&);
-
     	std::map<std::string, CommandFunction> commands;
 		void	InitilizeCommands();
 
@@ -83,4 +82,4 @@ class CommandHandler
 		static void execute_ftp(Client &sender, const std::vector<std::string> &arguments);
 };
 
-#endif // COMMAND_HANDLER_HPP
+#endif

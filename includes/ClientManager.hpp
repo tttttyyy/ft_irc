@@ -18,24 +18,24 @@ class ClientManager
 		MessageController	*messageController;
 
 	public:
+		ClientManager();
+		~ClientManager();
+		
 		bool	HasClient(int clientSocket) const;
 		bool	HasClient(const std::string &clientNick) const;
 		int		GetClientSocket(const std::string &clientName) const;
 		void	AddClient(int socketFd);
 		void	RemoveClient(int socketFd);
 		void	RemoveClient(std::map<int, Client>::iterator &iter);
-
 		int		AddClientstToReadFds(fd_set *readfds);
 		void	CloseClient(int	clientSocket, const std::string &reason);
 		void	HandleInput(fd_set *readfds);
 		void	HandleMessage(Client &client);
 
-		ClientManager();
-		~ClientManager();
 		static ClientManager *getManager();
 		const Client &getClient(int clientSocket) const;
 		const Client &getClient(const std::string &clientSocket) const;
 };
 
 
-#endif // CLIENT_MANAGER_HPP
+#endif

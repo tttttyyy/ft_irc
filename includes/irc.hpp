@@ -2,6 +2,7 @@
 # define IRC_HPP
 
 # include <map>
+# include <cctype>
 # include <cerrno>
 # include <vector>
 # include <string>
@@ -18,9 +19,7 @@
 # include <netinet/in.h>
 # include <sys/socket.h>
 # include <sys/types.h>
-# include <arpa/inet.h> //close
-
-
+# include <arpa/inet.h>
 # include "Client.hpp"
 # include "Server.hpp"
 # include "Channel.hpp"
@@ -40,5 +39,7 @@ void	ChannelModeMessage(const Client &client, const std::string &channelName);
 // ------------IMessenger---------------------------------------------
 void	SendMessageWithSocket(int clientSocket,	const std::string &message);
 
+int     custom_stoi(const std::string& str);
 
-#endif // IRC_HPP
+
+#endif

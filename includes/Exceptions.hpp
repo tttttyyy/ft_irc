@@ -1,6 +1,5 @@
 #ifndef EXCEPTIONS_HPP
 # define EXCEPTIONS_HPP
-
 # include "irc.hpp"
 
 class Server;
@@ -31,4 +30,4 @@ public:
 	virtual ~IRCException() throw();
 };
 
-#endif // EXCEPTIONS_HPP
+#endif

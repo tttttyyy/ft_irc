@@ -83,26 +83,25 @@ void Channel::ValidateAdmin(int admin) const
 	ValidateClientIsInServer(admin);
 	ValidateAdminIsInChannel(admin);
 	if (!IsAdmin(admin))
-		throw IRCException(GetNickWithSocket(admin), " " + this->name + " :You're not channel operator", 482); //ChannelOpPrivsNeeded(GetNickWithSocket(admin), this->name);
-		
+		throw IRCException(GetNickWithSocket(admin), " " + this->name + " :You're not channel operator", 482);
 }
 
 void Channel::ValidateClientIsInChannel(int admin, int client) const
 {
 	if (!HasMember(client))
-		throw IRCException(GetNickWithSocket(admin), " " +  GetNickWithSocket(client) + " " + this->name + " They aren't on that channel", 441); //UserNotInChannel(GetNickWithSocket(admin), GetNickWithSocket(client), this->name);
+		throw IRCException(GetNickWithSocket(admin), " " +  GetNickWithSocket(client) + " " + this->name + " They aren't on that channel", 441);
 }
 
 void Channel::ValidateAdminIsInChannel(int admin) const
 {
 	if (!HasMember(admin))
-		throw IRCException(GetNickWithSocket(admin), " " + this->name + " :You're not on that channel", 442);//NotOnChannel(GetNickWithSocket(admin), this->name);
+		throw IRCException(GetNickWithSocket(admin), " " + this->name + " :You're not on that channel", 442);
 }
 
 void Channel::ValidateClientIsInServer(int client) const
 {
 	if (!ClientManager::getManager()->HasClient(client))
-		throw IRCException(GetNickWithSocket(client), " " + this->name + " :No such nick/channel", 401);//NoSuchNick(GetNickWithSocket(client), this->name);
+		throw IRCException(GetNickWithSocket(client), " " + this->name + " :No such nick/channel", 401);
 }
 
 bool Channel::IsAdmin(int memberSocket) const

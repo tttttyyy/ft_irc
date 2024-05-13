@@ -38,4 +38,28 @@ void    ChannelModeMessage(const Client &client, const std::string &channelName)
 	SendMessageToClient(client, endingString);
 }
 
+int custom_stoi(const std::string& str) {
+    int result = 0;
+    bool negative = false;
+    size_t i = 0;
 
+    if (str[i] == '-') {
+        negative = true;
+        ++i;
+    } else if (str[i] == '+') {
+        ++i;
+    }
+
+    for (; i < str.size(); ++i) {
+        if (!isdigit(str[i])) {
+            break;
+        }
+        result = result * 10 + (str[i] - '0');
+    }
+
+    if (negative) {
+        result = -result;
+    }
+
+    return result;
+}

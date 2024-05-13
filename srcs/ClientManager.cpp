@@ -126,13 +126,11 @@ void	ClientManager::CloseClient(int	clientSocket, const std::string &reason)
 
 	address = server->GetAddress();
 	addrlen = server->getaddrlen();
-	//Somebody disconnected , get his details and print
 	getpeername(clientSocket , (sockaddr *)address , &addrlen);
 	
 	std::cout << "Host disconnected, IP: " << inet_ntoa(address->sin_addr)
 		<< ", PORT: " << ntohs(address->sin_port) << std::endl
 		<< "Reason: " << (reason.length() == 0 ? "not specified." : reason) << std::endl;
-	//Close the socket and mark as 0 in list for reuse
 	server->ClearClientFromChannels(clientMap[clientSocket]);
 	if (clientSocket == server->getBotDescriptor())
 		server->RemoveBot();
@@ -155,7 +153,7 @@ void	ClientManager::HandleInput(fd_set *readfds)
 				CloseClient(sd, "");
 				RemoveClient(sd);
 			}
-			else // in case if client inputed message
+			else
 			{
 				buffer[valread] = '\0';
 				if (buffer[0] && !((buffer[0] == '\n' || buffer[0] == '\r') && !messageController->ContainsChunk(sd)))
