@@ -9,7 +9,7 @@ class MessageController;
 class ClientManager
 {
 	private:
-		std::map<int, Client>	clientMap;
+		std::map<int, Client>	clientMap; // client socket fd, client/user
 		mutable std::map<int, Client>::const_iterator it;
 		char buffer[1025];
 

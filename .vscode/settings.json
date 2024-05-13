@@ -3,6 +3,7 @@
         "string": "cpp",
         "iosfwd": "cpp",
         "exception": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "map": "cpp"
     }
 }

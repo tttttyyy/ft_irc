@@ -8,5 +8,5 @@ const char * IRCException::what() const throw()
 		fullMessage = ":" + name + "@" + (Server::getServer())->getHost() + " " + NumberToString(errorCode) + errorMessage;
 		return fullMessage.c_str();
 }
-IRCException::~IRCException() throw()
-{}
+
+IRCException::~IRCException() throw() {}

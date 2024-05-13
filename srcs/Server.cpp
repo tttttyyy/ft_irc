@@ -118,8 +118,8 @@ int	Server::AcceptNewSocket()
 {
 	int new_socket;
 	if ((new_socket = accept(master_socket,
-				(struct sockaddr *)&address, &addrlen))<0)
-	{
+				(struct sockaddr *)&address, (socklen_t*)&addrlen))<0)	//(socklen_t*) ensures compatibility across different systems and compilers,
+	{																	//especially on platforms where socklen_t is not the same size as int.
 		perror("accept");
 		exit(EXIT_FAILURE);
 	}

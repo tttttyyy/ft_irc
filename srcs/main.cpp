@@ -1,7 +1,8 @@
 #include "irc.hpp"
 //write max client fd
+//check in while loop whether client fd is max if yes send limit message to new socket/client and close the socket
 //master socket?
-
+//listen, max queue pending connecton recommended size(2 arg)
 
 int	ValidateInput(int argc, std::string stringPort)
 {
