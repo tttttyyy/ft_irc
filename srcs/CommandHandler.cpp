@@ -451,13 +451,17 @@ void CommandHandler::execute_join(Client &sender, const std::vector<std::string>
 	}
 }
 
-voi CommandHandler::execute_invite(Client &sender, const std::vector<std::string> &arguments)
+void CommandHandler::execute_invite(Client &sender, const std::vector<std::string> &arguments)
 {
+	(void)sender;
+	(void)arguments;
 
 }
 
-voi CommandHandler::execute_topic(Client &sender, const std::vector<std::string> &arguments)
+void CommandHandler::execute_topic(Client &sender, const std::vector<std::string> &arguments)
 {
+	(void)sender;
+	(void)arguments;
 
 }
 

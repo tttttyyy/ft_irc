@@ -1,6 +1,6 @@
 NAME      = ircserv
 CPP       = c++
-RMIF      = rm -f
+RMIF      = rm -rf
 CPPFLAGS  = -Wall -Werror -Wextra -I./includes -std=c++98
 
 SRCS_DIR  = ./srcs
@@ -32,7 +32,7 @@ all: $(NAME)
 
 # Phony target to clean object files
 clean:
-	@$(RMIF) $(OBJS)
+	@$(RMIF) $(OBJ_DIR)
 	@echo "$(YELLOW) ✔ object files deleted!$(DEFAULT)"
 
 # Phony target to clean all

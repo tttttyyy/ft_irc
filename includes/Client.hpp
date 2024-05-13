@@ -10,10 +10,10 @@ class Client
 		bool		isPassed;
 		bool		isUsered;
 		bool		isNicked;
-		int			fd;
 		std::string name;
 		std::string nick;
 		std::string hostname;
+		int			fd;
 
 	public:
 		Client();
