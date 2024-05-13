@@ -1,6 +1,9 @@
 #include "irc.hpp"
+//write max client fd
+//master socket?
 
-void	ValidateInput(int argc, std::string stringPort)
+
+int	ValidateInput(int argc, std::string stringPort)
 {
 	if (argc != 3)
 	{
@@ -15,13 +18,12 @@ void	ValidateInput(int argc, std::string stringPort)
 		<< "It should be a number between 0 and 65535" << std::endl; // avelacnel guynery
 		exit(EXIT_FAILURE);
 	}
+	return(port);
 }
 
 int main(int argc, char **argv)
 {
-	ValidateInput(argc, argv[1]);
-
-	Server	server(atoi(argv[1]), argv[2]);
+	Server	server(ValidateInput(argc, argv[1]), argv[2]);
 
 	server.Setup();
 

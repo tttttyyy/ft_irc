@@ -29,6 +29,7 @@ Server::~Server()
 void	Server::Setup()
 {
 	addrlen = sizeof(address);
+	//write max client fd
 	CreateServer();
 	SetOptions();
 	BindSocket();
@@ -132,9 +133,9 @@ void	Server::HandleIncomingConnections()
 	{
 		new_socket = AcceptNewSocket();
 		std::cout << "New connection , socket fd is " << new_socket
-			<< ", ip is : " << getHost() << ", port : "
-			<< ntohs(address.sin_port) << std::endl;
-		
+			<< ", ip is : " << getHost() << ", port : "			//Dynamic Port Allocation: Some network protocols, such as FTP (File Transfer Protocol) or IRC (Internet Relay Chat),
+			<< ntohs(address.sin_port) << std::endl;			//involve dynamic port allocation for data transfer. In these cases, after the initial connection is established on the predefined port,
+																//additional ports may be opened dynamically for data transfer. This could be the reason why you're seeing another port.
 		ClientManager::getManager()->AddClient(new_socket);
 	}
 }
