@@ -72,6 +72,8 @@ class CommandHandler
 		static void execute_privmsg(Client &sender, const std::vector<std::string> &arguments);
 		static void execute_notice(Client &sender, const std::vector<std::string> &arguments);
 		static void execute_join(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_invite(Client &sender, const std::vector<std::string> &arguments);
+		static void execute_topic(Client &sender, const std::vector<std::string> &arguments);
 		static void execute_part(Client &sender, const std::vector<std::string> &arguments);
 		static void execute_kick(Client &sender, const std::vector<std::string> &arguments);
 		static void execute_quit(Client &sender, const std::vector<std::string> &arguments);

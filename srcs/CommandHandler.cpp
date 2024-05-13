@@ -96,6 +96,7 @@ void CommandHandler::validate_pass(Client &sender, const std::vector<std::string
 	if (Server::getServer()->getPass() != arguments[0])
 		throw IRCException(sender.getNick(), " :Password incorrect", 464);
 }
+
 void CommandHandler::validate_user(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.getIsPassed() == false)
@@ -105,6 +106,7 @@ void CommandHandler::validate_user(Client &sender, const std::vector<std::string
 	if(sender.getIsUsered())
 		throw IRCException(sender.getNick(), " :You may not reregister", 462);
 }
+
 void CommandHandler::validate_nick(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.getIsPassed() == false)
@@ -116,6 +118,7 @@ void CommandHandler::validate_nick(Client &sender, const std::vector<std::string
 	if (!MessageController::getController()->IsValidNickname(arguments[0]))
 		throw  IRCException(sender.getNick(), " " +  arguments[0] + " :Erroneus nickname", 432);
 }
+
 void CommandHandler::validate_ping(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -123,6 +126,7 @@ void CommandHandler::validate_ping(Client &sender, const std::vector<std::string
 	if(arguments.size() == 0)
 		throw IRCException(sender.getNick(), " PING :Not enough parameters", 461);
 }
+
 void CommandHandler::validate_pong(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -130,6 +134,7 @@ void CommandHandler::validate_pong(Client &sender, const std::vector<std::string
 	if(arguments.size() == 0)
 		throw IRCException(sender.getNick(), " PONG :Not enough parameters", 461);
 }
+
 void CommandHandler::validate_privmsg(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -156,6 +161,7 @@ void CommandHandler::validate_privmsg(Client &sender, const std::vector<std::str
 
 	}
 }
+
 void CommandHandler::validate_join(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -180,6 +186,7 @@ void CommandHandler::validate_join(Client &sender, const std::vector<std::string
 		}
 	}
 }
+
 void CommandHandler::validate_part(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -201,6 +208,7 @@ void CommandHandler::validate_part(Client &sender, const std::vector<std::string
 			throw  IRCException(sender.getNick(), " " + channelName + " :You're not on that channel", 442);
 	}
 }
+
 void CommandHandler::validate_kick(Client &sender, const std::vector<std::string> &arguments)
 {
 	std::string chName = arguments[0];
@@ -215,6 +223,7 @@ void CommandHandler::validate_kick(Client &sender, const std::vector<std::string
 	if(server->HasChannel(channelName) == false)
 		throw IRCException(sender.getNick(), " " + channelName + " :No such channel", 403);
 }
+
 void CommandHandler::validate_mode(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -235,6 +244,7 @@ void CommandHandler::validate_mode(Client &sender, const std::vector<std::string
 	else
 		throw IRCException(sender.getNick(), " " + arguments[0] + " :No such nick/channel", 401);
 }
+
 void CommandHandler::validate_who(Client &sender, const std::vector<std::string> &arguments)
 {
 	(void) arguments;
@@ -256,6 +266,7 @@ void CommandHandler::validate_who(Client &sender, const std::vector<std::string>
 	if(ClientManager::getManager()->HasClient(sender.getSocket()) == false)
 		throw IRCException(sender.getNick(), " WHO :No such nick/channel", 401);
 }
+
 void CommandHandler::validate_bot(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -281,12 +292,14 @@ void CommandHandler::validate_bot(Client &sender, const std::vector<std::string>
 	else if (!manager->HasClient(arguments[1]))
 		throw IRCException(sender.getNick(), " " + channelName + " :No such nick/channel", 401);
 }
+
 void CommandHandler::execute_pass(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_pass(sender, arguments);
 	(void) arguments;
 	sender.setIsPassed(true);
 }
+
 void CommandHandler::execute_user(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_user(sender, arguments);
@@ -296,6 +309,7 @@ void CommandHandler::execute_user(Client &sender, const std::vector<std::string>
 	if(sender.isDone())
 		server->SendHelloMessage(sender);
 }
+
 void CommandHandler::execute_nick(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_nick(sender, arguments);
@@ -305,16 +319,19 @@ void CommandHandler::execute_nick(Client &sender, const std::vector<std::string>
 	if(sender.isDone())
 		server->SendHelloMessage(sender);
 }
+
 void CommandHandler::execute_ping(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_ping(sender, arguments);
 	sender.SendPongMessage(arguments[0]);
 }
+
 void CommandHandler::execute_pong(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_pong(sender, arguments);
 	sender.SendPongMessage(arguments[0]);
 }
+
 void CommandHandler::execute_privmsg(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_privmsg(sender, arguments);
@@ -368,6 +385,7 @@ void CommandHandler::execute_privmsg(Client &sender, const std::vector<std::stri
 		}
 	}
 }
+
 void CommandHandler::execute_notice(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -402,6 +420,7 @@ void CommandHandler::execute_notice(Client &sender, const std::vector<std::strin
 		else return;
 	}
 }
+
 void CommandHandler::execute_join(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_join(sender, arguments);
@@ -431,6 +450,17 @@ void CommandHandler::execute_join(Client &sender, const std::vector<std::string>
 		channel.ChannelJoinResponse(sender);
 	}
 }
+
+voi CommandHandler::execute_invite(Client &sender, const std::vector<std::string> &arguments)
+{
+
+}
+
+voi CommandHandler::execute_topic(Client &sender, const std::vector<std::string> &arguments)
+{
+
+}
+
 void CommandHandler::execute_part(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_part(sender, arguments);
@@ -449,6 +479,7 @@ void CommandHandler::execute_part(Client &sender, const std::vector<std::string>
 			server->removeChannel(channelName);
 	}
 }
+
 void CommandHandler::execute_kick(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_kick(sender, arguments);
@@ -460,6 +491,7 @@ void CommandHandler::execute_kick(Client &sender, const std::vector<std::string>
 	int	memberSocket = clientManager->GetClientSocket(arguments[1]);
 	channel.KickMember(sender.getSocket(), memberSocket);
 }
+
 void CommandHandler::execute_quit(Client &sender, const std::vector<std::string> &arguments)
 {
 	ClientManager *manager = ClientManager::getManager();
@@ -468,6 +500,7 @@ void CommandHandler::execute_quit(Client &sender, const std::vector<std::string>
 	manager->CloseClient(socket, reason);
 	manager->RemoveClient(socket);
 }
+
 void CommandHandler::execute_mode(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_mode(sender, arguments);
@@ -533,6 +566,7 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 		UserModeMessage(sender);
 	}
 }
+
 void CommandHandler::execute_who(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_who(sender, arguments);
@@ -546,6 +580,7 @@ void CommandHandler::execute_who(Client &sender, const std::vector<std::string> 
 		return ;
 	}
 }
+
 void CommandHandler::execute_bot(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_bot(sender, arguments);
@@ -556,11 +591,13 @@ void CommandHandler::execute_bot(Client &sender, const std::vector<std::string> 
 		receiver = arguments[1];
 	Server::getServer()->SendMessageToBot(arguments[0] + " " + receiver);
 }
+
 void CommandHandler::execute_botme(Client &sender, const std::vector<std::string> &arguments)
 {
 	(void) arguments;
 	Server::getServer()->SetBotDescriptor(sender.getSocket());
 }
+
 void CommandHandler::execute_ftp(Client &sender, const std::vector<std::string> &arguments)
 {
 	std::string defaultFileName = "Makefile";
@@ -593,6 +630,8 @@ void	CommandHandler::InitilizeCommands()
 	commands["PRIVMSG"] = &execute_privmsg;
 	commands["NOTICE"] = &execute_notice;
 	commands["JOIN"] = &execute_join;
+	commands["INVITE"] = &execute_invite;
+	commands["TOPIC"] = &execute_topic;
 	commands["PART"] = &execute_part;
 	commands["KICK"] = &execute_kick;
 	commands["QUIT"] = &execute_quit;
