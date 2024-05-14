@@ -334,7 +334,7 @@ void CommandHandler::execute_pong(Client &sender, const std::vector<std::string>
 
 void CommandHandler::execute_privmsg(Client &sender, const std::vector<std::string> &arguments)
 {
-	validate_privmsg(sender, arguments);
+ 	validate_privmsg(sender, arguments);
 	MessageController *messageController = MessageController::getController();
 	ClientManager *clientManager = ClientManager::getManager();
 	Server *server = Server::getServer();
@@ -453,9 +453,29 @@ void CommandHandler::execute_join(Client &sender, const std::vector<std::string>
 
 void CommandHandler::execute_invite(Client &sender, const std::vector<std::string> &arguments)
 {
-	(void)sender;
-	(void)arguments;
-
+	if(sender.isDone() == false)
+		throw IRCException(sender.getNick(), " :You have not registered", 451);
+	if(arguments.size() < 2)
+		throw IRCException(sender.getNick(), " INVITE :Not enough parameters", 461);
+	MessageController *messageController = MessageController::getController();
+	ClientManager *clientManager = ClientManager::getManager();
+	Server *server = Server::getServer();
+	std::vector<std::string> chans = messageController->Split(arguments[0],",");
+	for (size_t i = 0; i < chans.size(); i++)
+	{
+		std::string channelName = messageController->GetChannelName(chans[i]);
+		if(!(server->getChannel(channelName).IsAdmin(sender.getSocket())))
+			throw IRCException(sender.getNick(), " " + channelName + " :You're not channel operator", 482);
+	}
+	std::vector<std::string> users = messageController->Split(arguments[1],",");
+	std::vector<std::string> vec;
+	vec.push_back(arguments[0]);
+	for (size_t j = 0; j < users.size(); j++)
+	{
+		if(!clientManager->HasClient(users[j]))
+			throw IRCException(sender.getNick(), " " + users[j] + " :No such nick/channel", 401);
+		execute_join(const_cast<Client&>(clientManager->getClient(users[j])), vec);
+	}
 }
 
 void CommandHandler::execute_topic(Client &sender, const std::vector<std::string> &arguments)
