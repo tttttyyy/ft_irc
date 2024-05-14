@@ -47,6 +47,12 @@ class Channel
 		void	SetPassword(const std::string &_password);
 		bool	CheckPassword(const std::string &_checkingPass) const;
 
+		//topic
+		bool	isTopicModeOn() const;
+		void	setTopicMode(bool mode);
+		std::string getTopic(void) const;
+		void	setTopic(const std::string& t);
+
 		int		HasMode(ModeType::Mode _mode)const;
 		void	AddMode(ModeType::Mode mode);
 		void	RemoveMode(ModeType::Mode mode);
@@ -61,10 +67,12 @@ class Channel
 
 	private:
 		std::string	name;
+		std::string	topic;
 		std::string	password;
 		std::map<int, Client> members;
 		int		mode;
 		mutable std::vector<int> admins;
+		bool topicMode;
 
 	private:
 		void	ValidateAdmin(int admin) const;

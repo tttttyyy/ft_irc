@@ -206,13 +206,32 @@ bool	Channel::CheckPassword(const std::string &_checkingPass) const
 	return (password == _checkingPass);
 }
 
+bool Channel::isTopicModeOn() const
+{
+    return (this->topicMode);
+}
+
+void Channel::setTopicMode(bool mode)
+{
+    this->topicMode = mode;
+}
+
+std::string Channel::getTopic(void) const
+{
+    return topic;
+}
+
+void Channel::setTopic(const std::string& t)
+{
+    topic = t;
+}
 
 int Channel::getMemberCount()
 {
 	return members.size();
 }
 
-Channel::Channel(std::string const &_name) : name(_name), password(""), mode(ModeType::none) { }
+Channel::Channel(std::string const &_name) : name(_name), password(""), mode(ModeType::none), topicMode(true) { }
 
 int Channel::HasMode(ModeType::Mode modeToCheck) const
 {

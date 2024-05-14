@@ -5,6 +5,7 @@
 //listen, max queue pending connecton recommended size(2 arg)
 // 2 channel name search till the end
 // limit client fd message
+//USER 0 * 2nd and 3rd args
 int	ValidateInput(int argc, std::string stringPort, std::string password)
 {
 	if (argc != 3)

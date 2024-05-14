@@ -187,6 +187,32 @@ void CommandHandler::validate_join(Client &sender, const std::vector<std::string
 	}
 }
 
+
+void CommandHandler::validate_topic(Client &sender, const std::vector<std::string> &arguments)
+{
+	if(sender.isDone() == false)
+		throw IRCException(sender.getNick(), " :You have not registered", 451) ;
+	if (arguments.empty())
+		throw IRCException(sender.getNick(), " TOPIC :Not enough parameters", 461);
+	std::string chName = arguments[0];
+
+	Server *server = Server::getServer();
+	if(server->HasChannel(chName) == false)
+		throw IRCException(sender.getNick(), " " + chName + " :No such channel", 403);
+
+	Channel channel = server->getChannel(chName);
+	if(channel.HasMember(sender.getSocket()) == false)
+		throw  IRCException(sender.getNick(), " " + chName + " :You're not on that channel", 442);
+
+	if(channel.IsAdmin(sender.getSocket()) == false)
+		throw IRCException(sender.getNick(), " " + chName + " :You're not channel operator", 482);
+
+	if (channel.isTopicModeOn() == false)
+		throw IRCException(sender.getNick(), " " + chName + " :TOPIC mode is OFF ('MODE <channel> +t' is needed)", 477);
+
+}
+
+
 void CommandHandler::validate_part(Client &sender, const std::vector<std::string> &arguments)
 {
 	if(sender.isDone() == false)
@@ -460,8 +486,7 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 
 void CommandHandler::execute_topic(Client &sender, const std::vector<std::string> &arguments)
 {
-	(void)sender;
-	(void)arguments;
+	validate_topic(sender, arguments);
 
 }
 

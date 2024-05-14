@@ -60,6 +60,7 @@ class CommandHandler
 		static void validate_privmsg(Client &sender, const std::vector<std::string> &arguments);
 		static void validate_join(Client &sender, const std::vector<std::string> &arguments);
 		static void validate_part(Client &sender, const std::vector<std::string> &arguments);
+		static void validate_topic(Client &sender, const std::vector<std::string> &arguments);
 		static void validate_kick(Client &sender, const std::vector<std::string> &arguments);
 		static void validate_mode(Client &sender, const std::vector<std::string> &arguments);
 		static void validate_who(Client &sender, const std::vector<std::string> &arguments);
