@@ -194,21 +194,21 @@ void CommandHandler::validate_topic(Client &sender, const std::vector<std::strin
 		throw IRCException(sender.getNick(), " :You have not registered", 451) ;
 	if (arguments.empty())
 		throw IRCException(sender.getNick(), " TOPIC :Not enough parameters", 461);
-	std::string chName = arguments[0];
+	std::string channelName = MessageController::getController()->GetChannelName(arguments[0]);
 
 	Server *server = Server::getServer();
-	if(server->HasChannel(chName) == false)
-		throw IRCException(sender.getNick(), " " + chName + " :No such channel", 403);
+	if(server->HasChannel(channelName) == false)
+		throw IRCException(sender.getNick(), " " + channelName + " :No such channel", 403);
 
-	Channel channel = server->getChannel(chName);
+	Channel channel = server->getChannel(channelName);
 	if(channel.HasMember(sender.getSocket()) == false)
-		throw  IRCException(sender.getNick(), " " + chName + " :You're not on that channel", 442);
+		throw  IRCException(sender.getNick(), " " + channelName + " :You're not on that channel", 442);
 
 	if(channel.IsAdmin(sender.getSocket()) == false)
-		throw IRCException(sender.getNick(), " " + chName + " :You're not channel operator", 482);
+		throw IRCException(sender.getNick(), " " + channelName + " :You're not channel operator", 482);
 
 	if (channel.isTopicModeOn() == false)
-		throw IRCException(sender.getNick(), " " + chName + " :TOPIC mode is OFF ('MODE <channel> +t' is needed)", 477);
+		throw IRCException(sender.getNick(), " " + channelName + " :TOPIC mode is OFF ('MODE <channel> +t' is needed)", 477);
 
 }
 
