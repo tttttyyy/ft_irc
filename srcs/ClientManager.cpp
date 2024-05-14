@@ -1,8 +1,6 @@
 #include "ClientManager.hpp"
 
-
 ClientManager	*ClientManager::instance = NULL;
-
 
 ClientManager	*ClientManager::getManager()
 {
@@ -12,7 +10,7 @@ ClientManager	*ClientManager::getManager()
 }
 
 
-ClientManager::ClientManager() : messageController(MessageController::getController())
+ClientManager::ClientManager() : clientLimit(CLIENTLIMIT), messageController(MessageController::getController())
 {
 	if (!instance)
 		instance = this;
@@ -24,13 +22,15 @@ ClientManager::ClientManager() : messageController(MessageController::getControl
 	}
 }
 
-ClientManager::~ClientManager()
-{
-
-}
+ClientManager::~ClientManager() {}
 
 void	ClientManager::AddClient(int socketFd)
 {
+	if (clientMap.size() == clientLimit)
+	{
+		send(socketFd, "LIMIT\n", 7, 0);
+        close(socketFd);
+	}
 	std::pair<int, Client> newClient(socketFd, Client(socketFd));
 	clientMap.insert(newClient);
 	std::cout << "Adding to list of sockets as "

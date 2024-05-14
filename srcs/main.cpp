@@ -4,7 +4,7 @@
 //master socket?
 //listen, max queue pending connecton recommended size(2 arg)
 // 2 channel name search till the end
-// pass length 8
+// limit client fd message
 int	ValidateInput(int argc, std::string stringPort, std::string password)
 {
 	if (argc != 3)

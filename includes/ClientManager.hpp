@@ -1,6 +1,7 @@
 #ifndef CLIENT_MANAGER_HPP
 # define CLIENT_MANAGER_HPP
 
+#define CLIENTLIMIT 1000
 
 # include "irc.hpp"
 
@@ -12,6 +13,7 @@ class ClientManager
 		std::map<int, Client>	clientMap; // client socket fd, client/user
 		mutable std::map<int, Client>::const_iterator it;
 		char buffer[1025];
+		unsigned long clientLimit;
 
 	private:
 		static ClientManager *instance;
