@@ -3,6 +3,7 @@
 //check in while loop whether client fd is max if yes send limit message to new socket/client and close the socket
 //master socket?
 //listen, max queue pending connecton recommended size(2 arg)
+// 2 channel name search till the end
 
 int	ValidateInput(int argc, std::string stringPort)
 {
