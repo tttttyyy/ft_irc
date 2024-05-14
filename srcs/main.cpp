@@ -8,15 +8,15 @@ int	ValidateInput(int argc, std::string stringPort)
 {
 	if (argc != 3)
 	{
-		std::cout << "Wrong number of arguments!!" << std::endl // avelacnel guynery
+		std::cout << RED << "Wrong number of arguments!!" << RESET << std::endl // avelacnel guynery
 			<< "Try like: ./irc <port> <password>" << std::endl; // avelacnel guynery
 		exit(EXIT_FAILURE);
 	}
 	int port = custom_stoi(stringPort);
 	if (port < 0 || port > 65535 || stringPort.find_first_not_of("0123456789") != std::string::npos)
 	{
-		std::cout << "Wrong PORT specified!!! Please input a valid PORT" << std::endl // avelacnel guynery
-		<< "It should be a number between 0 and 65535" << std::endl; // avelacnel guynery
+		std::cout << RED << "Wrong PORT specified!!! Please input a valid PORT" << YELLOW << std::endl // avelacnel guynery
+		<< "It should be a number between 0 and 65535" << RESET << std::endl; // avelacnel guynery
 		exit(EXIT_FAILURE);
 	}
 	return(port);
