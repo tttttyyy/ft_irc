@@ -23,6 +23,8 @@ struct CommandType
 		privmsg,
 		notice,
 		join,
+		invite,
+		topic,
 		part,
 		kick,
 		quit,
