@@ -63,3 +63,9 @@ int custom_stoi(const std::string& str) {
 
     return result;
 }
+
+std::string to_string(int value) {
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}

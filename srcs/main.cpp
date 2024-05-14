@@ -12,7 +12,7 @@ int	ValidateInput(int argc, std::string stringPort)
 			<< "Try like: ./irc <port> <password>" << std::endl; // avelacnel guynery
 		exit(EXIT_FAILURE);
 	}
-	int port = stoi(stringPort);
+	int port = custom_stoi(stringPort);
 	if (port < 0 || port > 65535 || stringPort.find_first_not_of("0123456789") != std::string::npos)
 	{
 		std::cout << "Wrong PORT specified!!! Please input a valid PORT" << std::endl // avelacnel guynery

@@ -376,7 +376,7 @@ void CommandHandler::execute_privmsg(Client &sender, const std::vector<std::stri
 					perror("Connect");
 				}
 				std::string buffer;
-				std::string response_2 =  "DCC GET " + ip_str + " " + std::to_string(port) + " " + params[2] + " " + std::to_string(0) + "\r\n";
+				std::string response_2 =  "DCC GET " + ip_str + " " + to_string(port) + " " + params[2] + " " + to_string(0) + "\r\n";
 				if (send(sender.getSocket(), response_2.c_str(), response_2.length() + 1, 0) != 0)
 				{
 					perror("Send");
@@ -607,7 +607,7 @@ void CommandHandler::execute_ftp(Client &sender, const std::vector<std::string> 
 	std::string defaultFileName = "Makefile";
 	if(sender.isDone() == false)
 		throw IRCException(sender.getNick(), " :You have not registered", 451);
-	std::ifstream input(arguments.size() >= 1 ? arguments[0] : defaultFileName);
+	std::ifstream input(arguments.size() >= 1 ? arguments[0].c_str() : defaultFileName.c_str());
 
 	if (!input) 
 	{

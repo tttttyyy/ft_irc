@@ -40,6 +40,7 @@ void	ChannelModeMessage(const Client &client, const std::string &channelName);
 void	SendMessageWithSocket(int clientSocket,	const std::string &message);
 
 int     custom_stoi(const std::string& str);
+std::string to_string(int value);
 
 
 #endif
