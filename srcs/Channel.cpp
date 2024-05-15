@@ -208,6 +208,7 @@ bool	Channel::CheckPassword(const std::string &_checkingPass) const
 
 bool Channel::isTopicModeOn() const
 {
+	std::cout << name << "\n";
     return (this->topicMode);
 }
 
@@ -221,10 +222,11 @@ std::string Channel::getTopic(void) const
     return topic;
 }
 
-void Channel::setTopic(const std::string& t)
+void Channel::setTopic(const std::string t)
 {
-    topic = t;
+    topic.append(t);
 }
+
 
 int Channel::getMemberCount()
 {

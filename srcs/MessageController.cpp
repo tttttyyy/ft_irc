@@ -31,9 +31,8 @@ CommandData	MessageController::ParseSingleCommand(const std::string &commandLine
 	{
 		mainPart = commandLine.substr(0, found);
   		longArg = commandLine.substr(found +1, std::string::npos);
-	} else mainPart = commandLine;
-
-	
+	}
+	else mainPart = commandLine;
 	mainPart = trim(mainPart);
 	std::stringstream ss(mainPart);
 	if (std::getline(ss, str, ' '))
@@ -198,7 +197,7 @@ std::string	MessageController::GetModesString(const std::string &argument, char 
 	size_t	pos = argument.find(sign);
 	if (pos == std::string::npos)
 		return std::string();
-	size_t	endPos = argument.find_first_not_of("wriobk", pos + 1);
+	size_t	endPos = argument.find_first_not_of("wriobtlk", pos + 1);
 	if (endPos == pos)
 		return std::string();
 	if (endPos == std::string::npos)

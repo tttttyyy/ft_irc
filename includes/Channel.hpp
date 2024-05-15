@@ -5,6 +5,7 @@
 
 class Client;
 class CommandResponse;
+
 struct ModeType
 {
 	enum Mode
@@ -13,13 +14,26 @@ struct ModeType
 		read = 1,
 		write_ = 2,
 		invite = 4,
-		private_ = 8
+		private_ = 8,
+		topic = 16,
+		key = 32,
+		operator_ = 64,
+		user_limit = 128
 	};
 };
 
 
 class Channel 
 {
+	private:
+		std::string	name;
+		std::string	topic;
+		std::string	password;
+		std::map<int, Client> members;
+		int		mode;
+		mutable std::vector<int> admins;
+		bool topicMode;
+
 	public:
 		
 		Channel();
@@ -51,7 +65,7 @@ class Channel
 		bool	isTopicModeOn() const;
 		void	setTopicMode(bool mode);
 		std::string getTopic(void) const;
-		void	setTopic(const std::string& t);
+		void	setTopic(const std::string t);
 
 		int		HasMode(ModeType::Mode _mode)const;
 		void	AddMode(ModeType::Mode mode);
@@ -65,14 +79,6 @@ class Channel
 		void ChannelJoinResponse(Client const &client);
 		void ChangeChannelUser(Client const &client);
 
-	private:
-		std::string	name;
-		std::string	topic;
-		std::string	password;
-		std::map<int, Client> members;
-		int		mode;
-		mutable std::vector<int> admins;
-		bool topicMode;
 
 	private:
 		void	ValidateAdmin(int admin) const;

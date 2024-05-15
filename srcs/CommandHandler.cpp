@@ -41,7 +41,7 @@ void	ValidateChannelMode(const Client &sender, const std::vector<std::string> &a
 		return ;
 
 	std::string modeString = arguments[1];
-	size_t index = modeString.find_first_not_of("+-wriokb");
+	size_t index = modeString.find_first_not_of("+-wrioktlb");
 	if (index != std::string::npos)
 		throw IRCException(sender.getNick(), " " + modeString + " :is unknown mode char to me", 472);
 	int plusSign  = messageController->SignCount(modeString, '+');
@@ -194,22 +194,20 @@ void CommandHandler::validate_topic(Client &sender, const std::vector<std::strin
 		throw IRCException(sender.getNick(), " :You have not registered", 451) ;
 	if (arguments.empty())
 		throw IRCException(sender.getNick(), " TOPIC :Not enough parameters", 461);
-	std::string channelName = MessageController::getController()->GetChannelName(arguments[0]);
-
+	MessageController *messageController = MessageController::getController();
 	Server *server = Server::getServer();
-	if(server->HasChannel(channelName) == false)
-		throw IRCException(sender.getNick(), " " + channelName + " :No such channel", 403);
-
-	Channel channel = server->getChannel(channelName);
-	if(channel.HasMember(sender.getSocket()) == false)
-		throw  IRCException(sender.getNick(), " " + channelName + " :You're not on that channel", 442);
-
-	if(channel.IsAdmin(sender.getSocket()) == false)
-		throw IRCException(sender.getNick(), " " + channelName + " :You're not channel operator", 482);
-
-	if (channel.isTopicModeOn() == false)
-		throw IRCException(sender.getNick(), " " + channelName + " :TOPIC mode is OFF ('MODE <channel> +t' is needed)", 477);
-
+	std::vector<std::string> chans = messageController->Split(arguments[0],",");
+	for (size_t i = 0; i < chans.size(); i++)
+	{
+		std::string channelName = messageController->GetChannelName(chans[i]);
+		if(server->HasChannel(channelName) == false) //stugel karox e chans[i] @ndunel
+			throw IRCException(sender.getNick(), " " + channelName + " :No such channel", 403);
+		Channel channel = server->getChannel(channelName);
+		if(channel.HasMember(sender.getSocket()) == false)
+			throw  IRCException(sender.getNick(), " " + channelName + " :You're not on that channel", 442);
+		if (channel.isTopicModeOn() == false)
+			throw IRCException(sender.getNick(), " " + channelName + " :TOPIC mode is OFF ('MODE <channel> +t' is needed)", 477);
+	}
 }
 
 
@@ -507,7 +505,42 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 void CommandHandler::execute_topic(Client &sender, const std::vector<std::string> &arguments)
 {
 	validate_topic(sender, arguments);
-
+	std::string message;
+	std::string channelName;
+	MessageController *messageController = MessageController::getController();
+	Server *server = Server::getServer();
+	std::vector<std::string> chans = messageController->Split(arguments[0],",");
+	if (arguments.size() < 2)
+	{
+		for (size_t i = 0; i < chans.size(); i++)
+		{
+			std::string channelName = messageController->GetChannelName(chans[i]);
+			Channel &channel = server->getChannel(channelName);
+			std::string topic = channel.getTopic();
+			message = sender.GetFormattedText() + " #" + channelName + " :" + ((topic.empty() || !channel.isTopicModeOn())? "No topic is set":topic);
+			// you are not on the channel
+			SendMessageToClient(sender, message);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < chans.size(); i++)
+		{
+			channelName = messageController->GetChannelName(chans[i]);
+			Channel &channel = server->getChannel(channelName);
+			if(!(channel.IsAdmin(sender.getSocket())))
+				throw IRCException(sender.getNick(), " " + channelName + " :You're not channel operator", 482);
+		}
+		for (size_t i = 0; i < chans.size(); i++)
+		{
+			channelName = messageController->GetChannelName(chans[i]);
+			Channel &channel= server->getChannel(channelName);
+			if (channel.isTopicModeOn())
+				channel.setTopic(arguments[1]);
+			else
+				SendMessageToClient(sender, sender.GetFormattedText() + " #" + channelName + " :No topic is set");
+		}
+	}
 }
 
 void CommandHandler::execute_part(Client &sender, const std::vector<std::string> &arguments)
