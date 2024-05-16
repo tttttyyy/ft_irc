@@ -205,7 +205,7 @@ void CommandHandler::validate_topic(Client &sender, const std::vector<std::strin
 		Channel channel = server->getChannel(channelName);
 		if(channel.HasMember(sender.getSocket()) == false)
 			throw  IRCException(sender.getNick(), " " + channelName + " :You're not on that channel", 442);
-		if (channel.isTopicModeOn() == false)
+		if (channel.HasMode(ModeType::topic) == false)
 			throw IRCException(sender.getNick(), " " + channelName + " :TOPIC mode is OFF ('MODE <channel> +t' is needed)", 477);
 	}
 }
@@ -517,7 +517,7 @@ void CommandHandler::execute_topic(Client &sender, const std::vector<std::string
 			std::string channelName = messageController->GetChannelName(chans[i]);
 			Channel &channel = server->getChannel(channelName);
 			std::string topic = channel.getTopic();
-			message = sender.GetFormattedText() + " #" + channelName + " :" + ((topic.empty() || !channel.isTopicModeOn())? "No topic is set":topic);
+			message = sender.GetFormattedText() + " #" + channelName + " :" + ((topic.empty() || !channel.HasMode(ModeType::topic))? "No topic is set":topic);
 			// you are not on the channel
 			SendMessageToClient(sender, message);
 		}
@@ -535,7 +535,7 @@ void CommandHandler::execute_topic(Client &sender, const std::vector<std::string
 		{
 			channelName = messageController->GetChannelName(chans[i]);
 			Channel &channel= server->getChannel(channelName);
-			if (channel.isTopicModeOn())
+			if (channel.HasMode(ModeType::topic))
 				channel.setTopic(arguments[1]);
 			else
 				SendMessageToClient(sender, sender.GetFormattedText() + " #" + channelName + " :No topic is set");
@@ -612,6 +612,10 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 				channel.AddMode(ModeType::read);
 			else if (mode == 'i')
 				channel.AddMode(ModeType::invite);
+			else if (mode == 't')
+				channel.AddMode(ModeType::topic);
+			else if (mode == 'l')
+				channel.AddMode(ModeType::user_limit);
 			else if (mode == 'k')
 			{
 				channel.AddMode(ModeType::private_);
@@ -632,6 +636,10 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 				channel.RemoveMode(ModeType::read);
 			else if (mode == 'i')
 				channel.RemoveMode(ModeType::invite);
+			else if (mode == 't')
+				channel.RemoveMode(ModeType::topic);
+			else if (mode == 'l')
+				channel.RemoveMode(ModeType::user_limit);
 			else if (mode == 'k')
 			{
 				channel.RemoveMode(ModeType::private_);

@@ -32,7 +32,6 @@ class Channel
 		std::map<int, Client> members;
 		int		mode;
 		mutable std::vector<int> admins;
-		bool topicMode;
 
 	public:
 		
@@ -62,8 +61,6 @@ class Channel
 		bool	CheckPassword(const std::string &_checkingPass) const;
 
 		//topic
-		bool	isTopicModeOn() const;
-		void	setTopicMode(bool mode);
 		std::string getTopic(void) const;
 		void	setTopic(const std::string t);
 

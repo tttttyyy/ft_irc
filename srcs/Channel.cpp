@@ -192,7 +192,9 @@ void Channel::PrintData()
 	std::cout << "WRITEONLY: " << (mode & ModeType::write_) << std::endl
 		<< "READONLY: " << (mode & ModeType::read) << std::endl
 		<< "INVITEONLY: " << (mode & ModeType::invite) << std::endl
-		<< "PRIVATE: " << (mode & ModeType::private_) << std::endl;
+		<< "PRIVATE: " << (mode & ModeType::private_) << std::endl
+		<< "TOPIC: " << (mode & ModeType::private_) << std::endl
+		<< "USER_LIMIT: " << (mode & ModeType::private_) << std::endl;
  	std::cout << std::endl;
 }
 
@@ -204,17 +206,6 @@ void	Channel::SetPassword(const std::string &_password)
 bool	Channel::CheckPassword(const std::string &_checkingPass) const
 {
 	return (password == _checkingPass);
-}
-
-bool Channel::isTopicModeOn() const
-{
-	std::cout << name << "\n";
-    return (this->topicMode);
-}
-
-void Channel::setTopicMode(bool mode)
-{
-    this->topicMode = mode;
 }
 
 std::string Channel::getTopic(void) const
@@ -233,7 +224,7 @@ int Channel::getMemberCount()
 	return members.size();
 }
 
-Channel::Channel(std::string const &_name) : name(_name), password(""), mode(ModeType::none), topicMode(true) { }
+Channel::Channel(std::string const &_name) : name(_name), password(""), mode(ModeType::none){ }
 
 int Channel::HasMode(ModeType::Mode modeToCheck) const
 {
@@ -261,6 +252,10 @@ std::string	Channel::ModeInfo() const
 		modesString += 'w';
 	if (mode & ModeType::invite)
 		modesString += 'i';
+	if (mode & ModeType::topic)
+		modesString += 't';
+	if (mode & ModeType::user_limit)
+		modesString += 'l';
 	if (mode & ModeType::private_)
 		modesString += 'k';
 	if (mode & ModeType::private_)
