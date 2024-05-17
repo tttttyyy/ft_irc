@@ -477,6 +477,7 @@ void CommandHandler::execute_join(Client &sender, const std::vector<std::string>
 
 void CommandHandler::execute_invite(Client &sender, const std::vector<std::string> &arguments)
 {
+	std::string channelName;
 	if(sender.isDone() == false)
 		throw IRCException(sender.getNick(), " :You have not registered", 451);
 	if(arguments.size() < 2)
@@ -487,18 +488,26 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 	std::vector<std::string> chans = messageController->Split(arguments[0],",");
 	for (size_t i = 0; i < chans.size(); i++)
 	{
-		std::string channelName = messageController->GetChannelName(chans[i]);
+		channelName = messageController->GetChannelName(chans[i]);
 		if(!(server->getChannel(channelName).IsAdmin(sender.getSocket())))
 			throw IRCException(sender.getNick(), " " + channelName + " :You're not channel operator", 482);
 	}
 	std::vector<std::string> users = messageController->Split(arguments[1],",");
-	std::vector<std::string> vec;
-	vec.push_back(arguments[0]);
-	for (size_t j = 0; j < users.size(); j++)
+	for (size_t i = 0; i < users.size(); i++)
 	{
-		if(!clientManager->HasClient(users[j]))
-			throw IRCException(sender.getNick(), " " + users[j] + " :No such nick/channel", 401);
-		execute_join(const_cast<Client&>(clientManager->getClient(users[j])), vec);
+		if(!clientManager->HasClient(users[i]))
+			throw IRCException(sender.getNick(), " " + users[i] + " :No such nick/channel", 401);
+		// execute_join(const_cast<Client&>(clientManager->getClient(users[j])), vec);
+		for (size_t j = 0; j < chans.size(); j++)
+		{
+			channelName = messageController->GetChannelName(chans[j]);
+			if (server->HasChannel(chans[j]))
+			{
+				Channel &channel = server->getChannel(channelName);
+				channel.AddMember(clientManager->GetClientSocket(users[i]));
+				channel.ChannelJoinResponse(clientManager->GetClientSocket(users[i]));
+			}
+		}
 	}
 }
 
