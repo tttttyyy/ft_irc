@@ -21,7 +21,7 @@ void    KickMessage(const Client &client, std::string const &channelName, std::s
     (void) client;
 	Channel &channel = Server::getServer()->getChannel(channelName);
 	const Client &admin_class = ClientManager::getManager()->getClient(admin);
-	std::string message = ":" + admin_class.GetFormattedText() + " KICK " + "#"+channelName + " " + client.getNick() + " : BYE!!!";
+	std::string message = admin_class.GetFormattedText() + " KICK " + "#"+channelName + " " + client.getNick() + " : BYE!!!";
 	std::string kick_reply = ":KICK FROM #" + channelName + " BY " + admin;
     channel.SendChannelReply(message);
 }
