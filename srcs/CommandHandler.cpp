@@ -626,7 +626,7 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 			else if (mode == 't')
 				channel.AddMode(ModeType::topic);
 			else if (mode == 'l')
-				channel.AddMode(ModeType::user_limit);
+				channel.SetLimit(custom_stoi(arguments[2]));
 			else if (mode == 'k')
 			{
 				channel.AddMode(ModeType::private_);
@@ -650,7 +650,7 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 			else if (mode == 't')
 				channel.RemoveMode(ModeType::topic);
 			else if (mode == 'l')
-				channel.RemoveMode(ModeType::user_limit);
+				channel.SetLimit(0);
 			else if (mode == 'k')
 			{
 				channel.RemoveMode(ModeType::private_);

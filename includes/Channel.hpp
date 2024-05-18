@@ -30,8 +30,9 @@ class Channel
 		std::string	topic;
 		std::string	password;
 		std::map<int, Client> members;
-		int		mode;
 		mutable std::vector<int> admins;
+		int			mode;
+		size_t		limit;
 
 	public:
 		
@@ -39,6 +40,7 @@ class Channel
 		~Channel();
 		Channel(std::string const &_name);
 		void	AddMember(int newMember);
+		void	SetLimit(size_t new_limit);
 		void	KickMember(int admin, int removingMember);
 		void	LeaveMember(int memberNick);
 		void	LeaveIfMember(int memberNick);
