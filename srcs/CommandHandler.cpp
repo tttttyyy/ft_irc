@@ -67,7 +67,7 @@ void	ValidateChannelMode(const Client &sender, const std::vector<std::string> &a
 			if (arguments.size() < 3)
 				throw IRCException(sender.getNick(), " MODE :Not enough parameters", 461);
 		}
-		int clientSocket = clientManager->GetClientSocket(arguments[i + 1]);
+		int clientSocket = clientManager->GetClientSocket(arguments[i + 2]);
 		if (set == 'o' && !channel.HasMember(clientSocket))
 			throw IRCException(sender.getName(), " " + sender.getNick() + " " + channelName + " They aren't on that channel", 441);
 	}
@@ -80,7 +80,7 @@ void	ValidateChannelMode(const Client &sender, const std::vector<std::string> &a
 				throw IRCException(sender.getNick(), " :Cant change mode for other users", 502);
 			if (arguments.size() < 3)
 				throw IRCException(sender.getNick(), " MODE :Not enough parameters", 461);
-			int clientSocket = clientManager->GetClientSocket(arguments[i + 1]);
+			int clientSocket = clientManager->GetClientSocket(arguments[i + 2]);
 			if (!channel.HasMember(clientSocket))
 				throw IRCException(sender.getName(), " " + sender.getNick() + " " + channelName + " They aren't on that channel", 441);
 		}
@@ -250,6 +250,8 @@ void CommandHandler::validate_kick(Client &sender, const std::vector<std::string
 
 void CommandHandler::validate_mode(Client &sender, const std::vector<std::string> &arguments)
 {
+	if (arguments.empty())
+		throw IRCException(sender.getNick(), " MODE :Not enough parameters", 461);
 	if(sender.isDone() == false)
 		throw IRCException(sender.getNick(), " :You have not registered", 451) ;
 
