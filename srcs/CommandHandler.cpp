@@ -501,7 +501,7 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 		for (size_t j = 0; j < chans.size(); j++)
 		{
 			channelName = messageController->GetChannelName(chans[j]);
-			if (server->HasChannel(chans[j]))
+			if (server->HasChannel(channelName))
 			{
 				Channel &channel = server->getChannel(channelName);
 				channel.AddMember(clientManager->GetClientSocket(users[i]));
