@@ -387,8 +387,7 @@ void CommandHandler::execute_privmsg(Client &sender, const std::vector<std::stri
 					return ;
 				int port = custom_stoi(params[4]);
 				int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-				int flags = fcntl(sockfd, F_GETFL, 0);
-				fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
+				fcntl(sockfd, F_SETFL, O_NONBLOCK);
 				struct sockaddr_in address;
 				uint32_t ip_int = params.size() > 2 ? custom_stoi(params[3]) : 2130706433;
 				struct in_addr addr;
@@ -464,8 +463,8 @@ void CommandHandler::execute_join(Client &sender, const std::vector<std::string>
 		else
 		{
 			Channel &channel = server->getChannel(channelName);
+			channel.AddMode(ModeType::write_ | ModeType::topic);
 			channel.AddMember(sender.getSocket());
-			channel.AddMode(ModeType::write_);
 			if (arguments.size() > 1)
 			{
 				channel.SetPassword(arguments[1]);
@@ -581,9 +580,9 @@ void CommandHandler::execute_kick(Client &sender, const std::vector<std::string>
 	ClientManager *clientManager = ClientManager::getManager();
 	std::string channelName = MessageController::getController()->GetChannelName(arguments[0]);
 	Channel &channel = server->getChannel(channelName);
-	KickMessage(clientManager->getClient(arguments[1]),channelName,sender.getNick());
 	int	memberSocket = clientManager->GetClientSocket(arguments[1]);
 	channel.KickMember(sender.getSocket(), memberSocket);
+	KickMessage(clientManager->getClient(arguments[1]),channelName,sender.getNick());
 }
 
 void CommandHandler::execute_quit(Client &sender, const std::vector<std::string> &arguments)

@@ -68,7 +68,7 @@ class Channel
 		void	setTopic(const std::string t);
 
 		int		HasMode(ModeType::Mode _mode)const;
-		void	AddMode(ModeType::Mode mode);
+		void	AddMode(int);
 		void	RemoveMode(ModeType::Mode mode);
 		std::string	ModeInfo() const;
 

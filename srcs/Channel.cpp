@@ -244,7 +244,7 @@ int Channel::HasMode(ModeType::Mode modeToCheck) const
 	return (mode & modeToCheck);
 }
 
-void Channel::AddMode(ModeType::Mode newMode)
+void Channel::AddMode(int newMode)
 {
 	mode |= newMode;
 }
