@@ -32,16 +32,19 @@ int	ValidateInput(int argc, std::string stringPort, std::string password)
 
 int main(int argc, char **argv)
 {
-	Server	server(ValidateInput(argc, argv[1], argv[2]), argv[2]);
-
-	server.Setup();
-
-	while(true)
+	if (argc == 3)
 	{
-		server.ResetSockets();
-		server.WaitForActivity();
-		server.HandleIncomingConnections();
-		server.ListenForClientInput();
+		Server	server(ValidateInput(argc, argv[1], argv[2]), argv[2]);
+
+		server.Setup();
+
+		while(true)
+		{
+			server.ResetSockets();
+			server.WaitForActivity();
+			server.HandleIncomingConnections();
+			server.ListenForClientInput();
+		}
 	}
 	return (0);
 }
