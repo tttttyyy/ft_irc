@@ -179,6 +179,8 @@ void CommandHandler::validate_join(Client &sender, const std::vector<std::string
 		if (server->HasChannel(channelName))
 		{
 			Channel	channel = server->getChannel(channelName);
+			if (channel.HasMode(ModeType::user_limit) && channel.getMemberCount() == channel.size())
+				throw IRCException(sender.getNick(), " " + channelName + " :Cannot join channel (+l)", 471);
 			if (channel.HasMode(ModeType::invite))
 				throw IRCException(sender.getNick(), " " + channelName + " :Cannot join channel (+i)", 473);
 			if (channel.HasMode(ModeType::private_) && !channel.CheckPassword(arguments[1]))
@@ -186,7 +188,6 @@ void CommandHandler::validate_join(Client &sender, const std::vector<std::string
 		}
 	}
 }
-
 
 void CommandHandler::validate_topic(Client &sender, const std::vector<std::string> &arguments)
 {
@@ -209,7 +210,6 @@ void CommandHandler::validate_topic(Client &sender, const std::vector<std::strin
 			throw IRCException(sender.getNick(), " " + channelName + " :TOPIC mode is OFF ('MODE <channel> +t' is needed)", 477);
 	}
 }
-
 
 void CommandHandler::validate_part(Client &sender, const std::vector<std::string> &arguments)
 {
@@ -499,15 +499,16 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 	{
 		if(!clientManager->HasClient(users[i]))
 			throw IRCException(sender.getNick(), " " + users[i] + " :No such nick/channel", 401);
-		// execute_join(const_cast<Client&>(clientManager->getClient(users[j])), vec);
 		for (size_t j = 0; j < chans.size(); j++)
 		{
 			channelName = messageController->GetChannelName(chans[j]);
 			if (server->HasChannel(channelName))
 			{
 				Channel &channel = server->getChannel(channelName);
+				if (channel.HasMode(ModeType::user_limit) && channel.getMemberCount() == channel.size())
+					throw IRCException(sender.getNick(), " " + channelName + " :Cannot join channel (+l)", 471);
 				channel.AddMember(clientManager->GetClientSocket(users[i]));
-				channel.ChannelJoinResponse(clientManager->GetClientSocket(users[i]));
+				channel.ChannelJoinResponse(clientManager->GetClientSocket(users[i]));//???
 			}
 		}
 	}
@@ -626,7 +627,12 @@ void CommandHandler::execute_mode(Client &sender, const std::vector<std::string>
 			else if (mode == 't')
 				channel.AddMode(ModeType::topic);
 			else if (mode == 'l')
-				channel.SetLimit(custom_stoi(arguments[2]));
+			{
+				int new_limit = custom_stoi(arguments[2]);
+				if (channel.getMemberCount() > new_limit)
+					throw IRCException(sender.getNick(), " " + channelName + " :Cannot join channel (+l)", 471);
+				channel.SetLimit(new_limit);
+			}
 			else if (mode == 'k')
 			{
 				channel.AddMode(ModeType::private_);

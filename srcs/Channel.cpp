@@ -8,8 +8,6 @@ void Channel::AddMember(int clientSocket)
 {
 	if (members.size() == 0)
 		SetAdmin(clientSocket);
-	if (HasMode(ModeType::user_limit) && members.size() == limit)
-		throw IRCException("MODE", " :You're not on that channel", 442);// poxel mesig@
 	Client addingClient = ClientManager::getManager()->getClient(clientSocket);
 	members.insert(std::pair<int, Client>(clientSocket, addingClient));
 }
@@ -18,12 +16,14 @@ void	Channel::SetLimit(size_t new_limit)
 {
 	if (new_limit == 0)
 		return (RemoveMode(ModeType::user_limit));
-	if (members.size() > new_limit)
-		throw IRCException("MODE", " :You're not on that channel", 442);// poxel mesig@
 	AddMode(ModeType::user_limit);
 	limit = new_limit;
 }
 
+int	Channel::size() const
+{
+	return limit;
+}
 
 void Channel::KickMember(int admin, int memberSocket)
 {
@@ -53,7 +53,7 @@ void Channel::MakeAdmin(int admin, int newAdmin){
 	ValidateCanModifyAdmin(admin, newAdmin);
 	SetAdmin(newAdmin);
 }
-
+sdfsdf
 void Channel::SetAdmin(int newAdmin)
 {
 	admins.push_back(newAdmin);

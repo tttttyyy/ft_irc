@@ -41,6 +41,7 @@ class Channel
 		Channel(std::string const &_name);
 		void	AddMember(int newMember);
 		void	SetLimit(size_t new_limit);
+		int		size() const;
 		void	KickMember(int admin, int removingMember);
 		void	LeaveMember(int memberNick);
 		void	LeaveIfMember(int memberNick);
