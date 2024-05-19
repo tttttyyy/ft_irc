@@ -486,14 +486,14 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 	MessageController *messageController = MessageController::getController();
 	ClientManager *clientManager = ClientManager::getManager();
 	Server *server = Server::getServer();
-	std::vector<std::string> chans = messageController->Split(arguments[0],",");
+	std::vector<std::string> chans = messageController->Split(arguments[1],",");
 	for (size_t i = 0; i < chans.size(); i++)
 	{
 		channelName = messageController->GetChannelName(chans[i]);
 		if(!(server->getChannel(channelName).IsAdmin(sender.getSocket())))
 			throw IRCException(sender.getNick(), " " + channelName + " :You're not channel operator", 482);
 	}
-	std::vector<std::string> users = messageController->Split(arguments[1],",");
+	std::vector<std::string> users = messageController->Split(arguments[0],",");
 	for (size_t i = 0; i < users.size(); i++)
 	{
 		if(!clientManager->HasClient(users[i]))
@@ -507,7 +507,7 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 				if (channel.HasMode(ModeType::user_limit) && channel.getMemberCount() == channel.size())
 					throw IRCException(sender.getNick(), " " + channelName + " :Cannot join channel (+l)", 471);
 				channel.AddMember(clientManager->GetClientSocket(users[i]));
-				channel.ChannelJoinResponse(clientManager->getClient(users[i]));//???
+				channel.ChannelJoinResponse(clientManager->getClient(users[i]));
 			}
 		}
 	}

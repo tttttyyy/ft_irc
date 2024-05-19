@@ -295,7 +295,7 @@ void Channel::ChannelJoinResponse(Client const &client)
 	
 	std::string message = client.GetFormattedText() + " JOIN " + "#" + name;
 	std::map<int, Client>::iterator it = members.begin();
-	if(it == members.end())
+	if (it == members.end())
 		std::cout << "errrorrr" << std::endl;
 	for (; it != members.end() ; it++)
 	{
