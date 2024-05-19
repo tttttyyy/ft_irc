@@ -507,7 +507,7 @@ void CommandHandler::execute_invite(Client &sender, const std::vector<std::strin
 				if (channel.HasMode(ModeType::user_limit) && channel.getMemberCount() == channel.size())
 					throw IRCException(sender.getNick(), " " + channelName + " :Cannot join channel (+l)", 471);
 				channel.AddMember(clientManager->GetClientSocket(users[i]));
-				channel.ChannelJoinResponse(clientManager->GetClientSocket(users[i]));//???
+				channel.ChannelJoinResponse(clientManager->getClient(users[i]));//???
 			}
 		}
 	}

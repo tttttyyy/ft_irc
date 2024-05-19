@@ -72,6 +72,7 @@ bool Client::isDone()
 
 std::string	Client::GetFormattedText() const
 {
+	std::cout << "\n\nNiched---" << isNicked << "\nUsered---" << isUsered << "\n\n";
 	std::string formatted = ":";
 
 	if (isNicked)
