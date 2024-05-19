@@ -53,7 +53,7 @@ void Channel::MakeAdmin(int admin, int newAdmin){
 	ValidateCanModifyAdmin(admin, newAdmin);
 	SetAdmin(newAdmin);
 }
-sdfsdf
+
 void Channel::SetAdmin(int newAdmin)
 {
 	admins.push_back(newAdmin);
